@@ -46,7 +46,7 @@ const Navbar: React.FC<Props> = ({ title, back, displayCart }) => {
 
   return (
     <Box sx={{ marginBottom: '70px' }}>
-      <AppBar elevation={0} className={styles.appbar}>
+      <AppBar color="inherit" elevation={0} className={styles.appbar}>
         <Container maxWidth="md">
           <Toolbar className={styles.toolbar} disableGutters>
             {back ? (
@@ -58,7 +58,7 @@ const Navbar: React.FC<Props> = ({ title, back, displayCart }) => {
                   variant="h6"
                   sx={{
                     fontWeight: 700,
-                    color: 'inherit',
+                    color: 'primary.main',
                   }}
                 >
                   {title || 'Next Store'}
@@ -66,12 +66,12 @@ const Navbar: React.FC<Props> = ({ title, back, displayCart }) => {
               </Box>
             ) : (
               <Box onClick={() => router.push('/')} className={styles.logo}>
-                <SiNextdotjs size={25} />
+                <SiNextdotjs size={25} style={{ color: '#1976d2' }} />
                 <Typography
                   variant="h6"
                   sx={{
                     fontWeight: 700,
-                    color: 'inherit',
+                    color: 'primary.main',
                   }}
                 >
                   {title || 'Next Store'}
