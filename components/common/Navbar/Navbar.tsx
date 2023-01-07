@@ -76,7 +76,11 @@ const Navbar: React.FC<Props> = ({ title, back, displayCart }) => {
             <Box className={styles.item}>
               {displayCart && (
                 <Tooltip title="Cart">
-                  <IconButton disableRipple sx={{ bgcolor: 'primary.main' }}>
+                  <IconButton
+                    onClick={() => router.push('/cart')}
+                    disableRipple
+                    sx={{ bgcolor: 'primary.main' }}
+                  >
                     <BsCart3 style={{ color: '#ffffff' }} />
                   </IconButton>
                 </Tooltip>

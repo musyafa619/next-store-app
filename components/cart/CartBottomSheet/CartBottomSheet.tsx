@@ -5,6 +5,8 @@ import {
   Divider,
   Card,
   CardContent,
+  useTheme,
+  useMediaQuery,
 } from '@mui/material';
 import { useCart } from 'context/CartContext';
 import { useRouter } from 'next/router';
@@ -14,12 +16,18 @@ import styles from './CartBottomSheet.module.scss';
 const CartBottomSheet: React.FC = () => {
   const { items, subTotal } = useCart();
   const router = useRouter();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   return (
     <Box
       className={styles.root}
       sx={{ visibility: items?.length < 1 ? 'hidden' : 'visibel' }}
     >
-      <Card elevation={0} className={styles.card}>
+      <Card
+        elevation={0}
+        className={styles.card}
+        sx={{ padding: isMobile ? '0px 16px 16px 16px' : '0px 0px 16px 0px' }}
+      >
         <Button
           size="large"
           variant="contained"

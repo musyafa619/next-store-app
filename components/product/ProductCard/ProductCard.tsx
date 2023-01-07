@@ -8,6 +8,7 @@ import {
   Divider,
   Rating,
   Chip,
+  useTheme,
 } from '@mui/material';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -15,6 +16,7 @@ import { currencyFormatter } from 'utils/currency-formatter';
 import { FcShipped } from 'react-icons/fc';
 import styles from './ProductCard.module.scss';
 import { ProductDto } from 'libs/dto/products';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 interface Props {
   product: ProductDto;
@@ -22,13 +24,21 @@ interface Props {
 
 const ProductCard: React.FC<Props> = ({ product }) => {
   const router = useRouter();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
   return (
     <Card
       onClick={() => router.push(`/products/${product.default_price}`)}
       elevation={0}
       className={styles.root}
     >
-      <CardContent className={styles.content}>
+      <CardContent
+        className={styles.content}
+        style={{
+          height: isMobile ? 190 : 290,
+        }}
+      >
         <Image
           alt="product"
           src={product?.images[0]}
@@ -36,17 +46,28 @@ const ProductCard: React.FC<Props> = ({ product }) => {
           height="0"
           sizes="100vw"
           className={styles.image}
+          style={{
+            height: isMobile ? 80 : 150,
+          }}
         />
-        <Typography variant="h6">{product?.name}</Typography>
-        <Typography color="text.secondary">
+        <Typography variant={isMobile ? 'subtitle2' : 'h6'}>
+          {product?.name}
+        </Typography>
+        <Typography
+          color="text.secondary"
+          variant={isMobile ? 'subtitle2' : 'subtitle1'}
+        >
           {currencyFormatter(product?.price as number, 'USD')}
         </Typography>
       </CardContent>
       <Box>
         <Divider />
-        <CardActions className={styles.footer}>
+        <CardActions
+          className={styles.footer}
+          sx={{ padding: isMobile ? '8px' : '16px' }}
+        >
           <Rating
-            size={'small'}
+            sx={{ fontSize: isMobile ? 10 : 25 }}
             value={Number(product?.metadata?.rating)}
             readOnly
           />
