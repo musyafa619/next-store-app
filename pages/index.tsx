@@ -6,6 +6,7 @@ import ProductList from 'components/product/ProductList';
 import { ProductDto } from 'libs/dto/products';
 import CartBottomSheet from 'components/cart/CartBottomSheet';
 import { stripe } from 'config/stripe';
+import Header from 'components/common/Header';
 
 interface Props {
   products: ProductDto[];
@@ -15,6 +16,7 @@ interface Props {
 export default function Home({ products }: Props) {
   return (
     <Fragment>
+      <Header title="Home" />
       <Navbar displayCart />
       <Layout>
         <ProductBanner />

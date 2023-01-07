@@ -27,6 +27,7 @@ const AuthLayout: React.FC<Props> = ({ children }) => {
           alignItems: 'center',
           height: '100vh',
           width: '100%',
+          padding: 2
         }}
       >
         {children}

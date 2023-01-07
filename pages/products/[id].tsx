@@ -6,6 +6,7 @@ import { GetStaticPropsContext } from 'next';
 import CartBottomSheet from 'components/cart/CartBottomSheet';
 import { stripe } from 'config/stripe';
 import { ProductDto } from 'libs/dto/products';
+import Header from 'components/common/Header';
 
 interface Props {
   product: ProductDto;
@@ -14,6 +15,7 @@ interface Props {
 export default function Product({ product }: Props) {
   return (
     <Fragment>
+      <Header title={product?.name} />
       <Navbar back="/" title="Product Detail" displayCart />
       <Layout>
         <ProductDetailView product={product} />
