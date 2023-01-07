@@ -43,7 +43,6 @@ Open or Create `.env` file and change the value of each available env
 The setup for this app would look like this for example:
 
 ```
-NEXT_PUBLIC_API_BASE_URL=https://xxxxxx
 NEXT_PUBLIC_STRIPE_SECRET_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
