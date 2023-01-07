@@ -1,0 +1,14 @@
+.titleSection {
+  display: flex;
+  flex-direction: column;
+}
+.quantity {
+  width: 120px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  margin: 20px 0px 30px 0px;
+  justify-content: space-between;
+  background-color: #f1f2f3;
+  border-radius: 20px;
+}

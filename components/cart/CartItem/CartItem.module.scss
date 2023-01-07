@@ -1,0 +1,52 @@
+.root {
+  width: 100%;
+  .content {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0px;
+    gap: 10px;
+    .product {
+      display: flex;
+      gap: 10px;
+      .detail {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .image {
+        width: 30%;
+        height: auto;
+      }
+    }
+
+    .action {
+      display: flex;
+      gap: 10px;
+      .quantity {
+        width: 100px;
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #f1f2f3;
+        border-radius: 20px;
+        height: fit-content;
+      }
+
+      .trash {
+        display: flex;
+        justify-content: space-between;
+        background-color: #f1f2f3;
+        border-radius: 20px;
+      }
+    }
+  }
+
+  .footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

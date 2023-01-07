@@ -1,0 +1,29 @@
+.appbar {
+  position: fixed;
+  top: 0;
+  width: '100%';
+  color: #1976d2;
+  background-color: #ffffff;
+  border-bottom: 0.5px solid rgba(86, 178, 128, 0.2);
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  .item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+  .title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
