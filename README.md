@@ -4,6 +4,10 @@
 
 The simple e-commerce app using Next.js.
 
+## Demo
+
+- [Live Demo](https://next-store-app-musyafa.vercel.app)
+
 ## Getting Started
 
 First, run the development server:
