@@ -38,12 +38,6 @@ const Navbar: React.FC<Props> = ({ title, back, displayCart }) => {
     setAnchorElUser(null);
   };
 
-  const stringAvatar = (name: string) => {
-    return {
-      children: `${name.split(' ')[0][0]}`,
-    };
-  };
-
   return (
     <Box sx={{ marginBottom: '70px' }}>
       <AppBar color="inherit" elevation={0} className={styles.appbar}>

@@ -43,7 +43,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 
 export async function getStaticPaths() {
   const response = await stripe.prices.list({
-    limit: 10,
+    limit: 12,
     expand: ['data.product'],
   });
 

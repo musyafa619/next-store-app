@@ -27,7 +27,7 @@ export default function Home({ products }: Props) {
 
 export async function getStaticProps() {
   const response = await stripe.prices.list({
-    limit: 10,
+    limit: 12,
     expand: ['data.product'],
   });
 
