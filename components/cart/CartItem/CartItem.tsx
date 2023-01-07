@@ -55,7 +55,10 @@ const CartItem: React.FC<Props> = ({ item }) => {
               <HiMinus size={15} />
             </IconButton>
             <Typography>{item?.quantity}</Typography>
-            <IconButton onClick={() => increaseItem(item)}>
+            <IconButton
+              disabled={item.quantity === item.stock}
+              onClick={() => increaseItem(item)}
+            >
               <HiPlus size={15} style={{ color: '#1976d2' }} />
             </IconButton>
           </Box>

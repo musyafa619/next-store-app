@@ -3,6 +3,9 @@ import { ProductDto } from 'libs/dto/products';
 import { useEffect } from 'react';
 import { useContext, useState } from 'react';
 import { createContext } from 'react';
+import getStripe from 'config/stripe';
+import { Stripe } from '@stripe/stripe-js';
+import { useRouter } from 'next/router';
 
 interface CartContext {
   items: CartItemDto[];
@@ -11,6 +14,9 @@ interface CartContext {
   increaseItem: (product: CartItemDto) => void;
   decreaseItem: (product: CartItemDto) => void;
   removeItem: (product: ProductDto) => void;
+  cartCheckout: () => Promise<void>;
+  loading: boolean;
+  resetCart: () => void;
 }
 
 const CartContext = createContext<CartContext>({} as CartContext);
@@ -22,8 +28,15 @@ interface Props {
 }
 
 export const CartContextProvider: React.FC<Props> = ({ children }) => {
+  const router = useRouter();
   const [items, setItems] = useState<CartItemDto[]>([]);
   const [subTotal, setSubTotal] = useState<number>(0);
+  const [loading, setLoading] = useState(false);
+
+  const resetCart = () => {
+    setItems([]);
+    calculateSubTotal([]);
+  };
 
   const calculateSubTotal = (items: CartItemDto[]) => {
     const allPrice = items.map((item) => item.price * item.quantity);
@@ -92,6 +105,31 @@ export const CartContextProvider: React.FC<Props> = ({ children }) => {
     setItems(newItems);
   };
 
+  const cartCheckout = async () => {
+    setLoading(true);
+    const stripe = await getStripe();
+    const lineItems = items?.map((item) => {
+      return {
+        price:
+          process.env.NEXT_PUBLIC_STRIPE_PRICE_ID ||
+          'price_1MMu1dIzdsqDcbOcbS1l6yz1',
+        quantity: item.quantity,
+      };
+    });
+    try {
+      await (stripe as Stripe).redirectToCheckout({
+        lineItems,
+        mode: 'payment',
+        successUrl: `${window?.location?.origin}/orders/success`,
+        cancelUrl: `${window?.location?.origin}/cart`,
+        customerEmail: 'customer@email.com',
+      });
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     const localCartItems = localStorage.getItem('cartItems');
     const localCartSubTotal = localStorage.getItem('cartSubTotal');
@@ -109,6 +147,9 @@ export const CartContextProvider: React.FC<Props> = ({ children }) => {
         increaseItem,
         decreaseItem,
         removeItem,
+        cartCheckout,
+        loading,
+        resetCart,
       }}
     >
       {children}

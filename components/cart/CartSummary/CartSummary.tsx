@@ -5,6 +5,7 @@ import {
   Divider,
   Card,
   CardContent,
+  CircularProgress,
 } from '@mui/material';
 import { currencyFormatter } from 'utils/currency-formatter';
 import styles from './CartSummary.module.scss';
@@ -12,7 +13,7 @@ import { Fragment, useState } from 'react';
 import { useCart } from 'context/CartContext';
 
 const CartSummary: React.FC = () => {
-  const { subTotal, items } = useCart();
+  const { subTotal, items, cartCheckout, loading } = useCart();
   return (
     <Box
       className={styles.root}
@@ -45,7 +46,9 @@ const CartSummary: React.FC = () => {
             size="large"
             variant="contained"
             className={styles.checkoutButton}
+            onClick={cartCheckout}
           >
+            {loading && <CircularProgress size={20} sx={{ color: 'white' }} />}
             <Typography variant="subtitle1" fontWeight={600}>
               Checkout
             </Typography>

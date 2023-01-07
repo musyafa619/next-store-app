@@ -28,7 +28,7 @@ const CartView: React.FC = () => {
       {items.map((item, index) => (
         <Fragment key={item.id}>
           <CartItem item={item} />
-          {index !== 7 && <Divider sx={{ my: 2 }} />}
+          {index !== items.length - 1 && <Divider sx={{ my: 2 }} />}
         </Fragment>
       ))}
     </Box>

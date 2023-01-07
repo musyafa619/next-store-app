@@ -5,6 +5,7 @@ import {
   Divider,
   IconButton,
   Rating,
+  Input,
 } from '@mui/material';
 import { currencyFormatter } from 'utils/currency-formatter';
 import styles from './ProductSummary.module.scss';
@@ -27,6 +28,9 @@ const ProductSummary: React.FC<Props> = ({ product }) => {
           {product?.title}
         </Typography>
         <Typography sx={{ my: 1.5 }} color="text.secondary">
+          Stock: {product?.stock}
+        </Typography>
+        <Typography sx={{ my: 1.5 }} color="text.secondary">
           {currencyFormatter(product?.price, 'USD')}
         </Typography>
         <Rating value={4} readOnly />
@@ -39,7 +43,19 @@ const ProductSummary: React.FC<Props> = ({ product }) => {
           >
             <HiMinus />
           </IconButton>
-          <Typography>{qty}</Typography>
+          <Input
+            type="number"
+            inputProps={{
+              type: 'number',
+              min: 0,
+              max: product?.stock,
+              style: {
+                textAlign: 'center',
+              },
+            }}
+            value={qty}
+            onChange={(event) => setQty(Number(event.target.value))}
+          />
           <IconButton onClick={() => setQty((prevState) => prevState + 1)}>
             <HiPlus style={{ color: '#1976d2' }} />
           </IconButton>

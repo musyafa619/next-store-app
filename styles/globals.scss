@@ -8,6 +8,16 @@ body {
   margin: 0px;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
 .carousel .thumb.selected,
 .carousel .thumb:hover {
   border: 2px solid #1976d2 !important;
