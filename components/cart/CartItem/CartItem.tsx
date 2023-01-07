@@ -26,7 +26,7 @@ const CartItem: React.FC<Props> = ({ item }) => {
         <Box className={styles.product}>
           <Image
             alt="product"
-            src={item.thumbnail}
+            src={item?.images?.[0]}
             width="0"
             height="0"
             sizes="100vw"
@@ -34,10 +34,10 @@ const CartItem: React.FC<Props> = ({ item }) => {
           />
           <Box className={styles.detail}>
             <Typography variant="subtitle1" component="div">
-              {item.title}
+              {item.name}
             </Typography>
             <Typography variant="subtitle2" color="text.secondary">
-              {currencyFormatter(item.price, 'USD')}
+              {currencyFormatter(item.price as number, 'USD')}
             </Typography>
           </Box>
         </Box>
@@ -56,7 +56,7 @@ const CartItem: React.FC<Props> = ({ item }) => {
             </IconButton>
             <Typography>{item?.quantity}</Typography>
             <IconButton
-              disabled={item.quantity === item.stock}
+              disabled={item.quantity === Number(item.metadata.stock)}
               onClick={() => increaseItem(item)}
             >
               <HiPlus size={15} style={{ color: '#1976d2' }} />

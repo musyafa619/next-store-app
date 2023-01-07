@@ -3,8 +3,7 @@ import { ProductDto } from 'libs/dto/products';
 import { useEffect } from 'react';
 import { useContext, useState } from 'react';
 import { createContext } from 'react';
-import getStripe from 'config/stripe';
-import { Stripe } from '@stripe/stripe-js';
+import { stripe } from 'config/stripe';
 import { useRouter } from 'next/router';
 
 interface CartContext {
@@ -39,7 +38,9 @@ export const CartContextProvider: React.FC<Props> = ({ children }) => {
   };
 
   const calculateSubTotal = (items: CartItemDto[]) => {
-    const allPrice = items.map((item) => item.price * item.quantity);
+    const allPrice = items.map(
+      (item) => (item.price as number) * item.quantity
+    );
     const result = allPrice.reduce((a, b) => a + b, 0);
 
     setSubTotal(result);
@@ -107,23 +108,21 @@ export const CartContextProvider: React.FC<Props> = ({ children }) => {
 
   const cartCheckout = async () => {
     setLoading(true);
-    const stripe = await getStripe();
     const lineItems = items?.map((item) => {
       return {
-        price:
-          process.env.NEXT_PUBLIC_STRIPE_PRICE_ID ||
-          'price_1MMu1dIzdsqDcbOcbS1l6yz1',
+        price: item.default_price,
         quantity: item.quantity,
       };
     });
     try {
-      await (stripe as Stripe).redirectToCheckout({
-        lineItems,
-        mode: 'payment',
-        successUrl: `${window?.location?.origin}/orders/success`,
-        cancelUrl: `${window?.location?.origin}/cart`,
-        customerEmail: 'customer@email.com',
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        body: JSON.stringify({ lineItems, baseUrl: window.location.origin }),
       });
+
+      const result = await res.json();
+
+      window.location.href = result.session.url;
     } catch (error) {
       console.log(error);
       setLoading(false);

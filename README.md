@@ -1,4 +1,8 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fmusyafa619%2Fnext-store-app)
+
+# Next Store App
+
+The simple e-commerce app using Next.js.
 
 ## Getting Started
 
@@ -14,23 +18,49 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Build App
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+```bash
+npm run build
+# or
+yarn build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Open `.next` folder to see the result.
 
-## Learn More
+## Features Available
 
-To learn more about Next.js, take a look at the following resources:
+The following features also available at this app which easily to customize
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- auth
+- cart
+- stripe integration
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## How to change or create env
+
+Open or Create `.env` file and change the value of each available env
+
+The setup for this app would look like this for example:
+
+```
+NEXT_PUBLIC_API_BASE_URL=https://xxxxxx
+NEXT_PUBLIC_STRIPE_SECRET_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+## Testing pay invoice
+
+To confirm that your integration works correctly, simulate transactions without moving any money, using special values in test mode.
+
+When testing interactively, use a card number, such as 4242 4242 4242 4242. Enter the card number in the Dashboard or in any payment form.
+
+1. Use a valid future date, such as 12/34.
+2. Use any three-digit CVC (four digits for American Express cards).
+3. Use any value you like for other form fields.
+
+Check out our [Stripe testing documentation](https://stripe.com/docs/testing) for more details.
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The easiest way to deploy this Next.js app is to use the [Vercel Platform](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fmusyafa619%2Fnext-store-app) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

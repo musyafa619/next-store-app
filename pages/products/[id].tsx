@@ -2,13 +2,13 @@ import { Fragment } from 'react';
 import Layout from 'components/common/Layout';
 import Navbar from 'components/common/Navbar';
 import ProductDetailView from 'components/product/ProductDetailView';
-import { getAllProducts, getSingleProduct } from 'services/products';
 import { GetStaticPropsContext } from 'next';
-import { GetSingleProductResponseDto } from 'libs/dto/products';
 import CartBottomSheet from 'components/cart/CartBottomSheet';
+import { stripe } from 'config/stripe';
+import { ProductDto } from 'libs/dto/products';
 
 interface Props {
-  product: GetSingleProductResponseDto;
+  product: ProductDto;
 }
 
 export default function Product({ product }: Props) {
@@ -24,7 +24,14 @@ export default function Product({ product }: Props) {
 }
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-  const product = await getSingleProduct(context?.params?.id as string);
+  const response = await stripe.prices.retrieve(context?.params?.id as string, {
+    expand: ['product'],
+  });
+
+  const product = {
+    ...(response.product as object),
+    price: Number(response.unit_amount_decimal?.slice(0, -2)),
+  };
 
   return {
     props: {
@@ -35,10 +42,13 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 }
 
 export async function getStaticPaths() {
-  const { products } = await getAllProducts();
+  const response = await stripe.prices.list({
+    limit: 10,
+    expand: ['data.product'],
+  });
 
-  const paths = products.map((product: any) => ({
-    params: { id: product.id.toString() },
+  const paths = response.data.map((item: any) => ({
+    params: { id: item.id.toString() },
   }));
 
   return { paths, fallback: 'blocking' };

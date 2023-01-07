@@ -3,12 +3,13 @@ import Layout from 'components/common/Layout';
 import Navbar from 'components/common/Navbar';
 import ProductBanner from 'components/product/ProductBanner';
 import ProductList from 'components/product/ProductList';
-import { getAllProducts } from 'services/products';
-import { GetAllProductsResponseDto, ProductDto } from 'libs/dto/products';
+import { ProductDto } from 'libs/dto/products';
 import CartBottomSheet from 'components/cart/CartBottomSheet';
+import { stripe } from 'config/stripe';
 
 interface Props {
   products: ProductDto[];
+  response: any;
 }
 
 export default function Home({ products }: Props) {
@@ -25,7 +26,17 @@ export default function Home({ products }: Props) {
 }
 
 export async function getStaticProps() {
-  const { products } = await getAllProducts();
+  const response = await stripe.prices.list({
+    limit: 10,
+    expand: ['data.product'],
+  });
+
+  const products = response.data.map((item) => {
+    return {
+      ...(item.product as object),
+      price: Number(item.unit_amount_decimal?.slice(0, -2)),
+    };
+  });
 
   return {
     props: {

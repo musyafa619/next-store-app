@@ -25,13 +25,13 @@ const ProductSummary: React.FC<Props> = ({ product }) => {
     <Fragment>
       <Box className={styles.titleSection}>
         <Typography variant="h5" component="div">
-          {product?.title}
+          {product?.name}
         </Typography>
         <Typography sx={{ my: 1.5 }} color="text.secondary">
-          Stock: {product?.stock}
+          Stock: {product?.metadata?.stock}
         </Typography>
         <Typography sx={{ my: 1.5 }} color="text.secondary">
-          {currencyFormatter(product?.price, 'USD')}
+          {currencyFormatter(product?.price as number, 'USD')}
         </Typography>
         <Rating value={4} readOnly />
 
@@ -48,7 +48,7 @@ const ProductSummary: React.FC<Props> = ({ product }) => {
             inputProps={{
               type: 'number',
               min: 0,
-              max: product?.stock,
+              max: product?.metadata?.stock,
               style: {
                 textAlign: 'center',
               },

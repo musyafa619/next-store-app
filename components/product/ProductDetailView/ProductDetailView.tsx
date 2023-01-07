@@ -15,7 +15,7 @@ const ProductDetailView: React.FC<Props> = ({ product }) => {
         <Grid container spacing={2}>
           <Grid item md={6}>
             <ProductCarousel
-              title={product?.title}
+              title={product?.name}
               images={product?.images?.slice(0, 3)}
             />
           </Grid>

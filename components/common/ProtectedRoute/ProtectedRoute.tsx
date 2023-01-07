@@ -14,10 +14,10 @@ const ProtectedRoute: React.FC<Props> = ({ children }) => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log('tes>>>', user);
     if (!user) {
       router.push('/login');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <Fragment>{user ? children : <Loader />}</Fragment>;
