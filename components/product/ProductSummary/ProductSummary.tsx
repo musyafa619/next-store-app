@@ -20,7 +20,9 @@ interface Props {
 
 const ProductSummary: React.FC<Props> = ({ product }) => {
   const [qty, setQty] = useState(1);
-  const { addItem } = useCart();
+  const { addItem, items } = useCart();
+
+  const itemCart = items.find((item) => item.id === product.id);
   return (
     <Fragment>
       <Box className={styles.titleSection}>
@@ -28,7 +30,7 @@ const ProductSummary: React.FC<Props> = ({ product }) => {
           {product?.name}
         </Typography>
         <Typography sx={{ my: 1.5 }} color="text.secondary">
-          Stock: {product?.metadata?.stock}
+          Stock: <b>{product?.metadata?.stock}</b>
         </Typography>
         <Typography sx={{ my: 1.5 }} color="text.secondary">
           {currencyFormatter(product?.price as number, 'USD')}
@@ -37,32 +39,51 @@ const ProductSummary: React.FC<Props> = ({ product }) => {
 
         <Box className={styles.quantity}>
           <IconButton
-            onClick={() =>
-              setQty((prevState) => (prevState > 0 ? prevState - 1 : prevState))
-            }
+            disabled={qty <= 1}
+            onClick={() => setQty((prevState) => prevState - 1)}
           >
             <HiMinus />
           </IconButton>
           <Input
             type="number"
+            sx={{ width: '100%' }}
             inputProps={{
               type: 'number',
               min: 0,
-              max: product?.metadata?.stock,
+              max: Number(product?.metadata?.stock),
               style: {
                 textAlign: 'center',
               },
             }}
-            value={qty}
-            onChange={(event) => setQty(Number(event.target.value))}
+            value={qty.toString()}
+            onChange={(event) => {
+              const value = Number(event.target.value);
+              setQty(value);
+            }}
           />
-          <IconButton onClick={() => setQty((prevState) => prevState + 1)}>
+          <IconButton
+            disabled={qty >= Number(product?.metadata?.stock)}
+            onClick={() => setQty((prevState) => prevState + 1)}
+          >
             <HiPlus style={{ color: '#1976d2' }} />
           </IconButton>
         </Box>
-        <Button variant="contained" onClick={() => addItem(product, qty)}>
+        <Button
+          disabled={
+            qty > Number(product?.metadata?.stock) ||
+            qty + Number(itemCart?.quantity) > Number(product?.metadata?.stock)
+          }
+          variant="contained"
+          onClick={() => addItem(product, qty)}
+        >
           Add to Cart
         </Button>
+        {qty + Number(itemCart?.quantity) >
+          Number(product?.metadata?.stock) && (
+          <Typography sx={{ my: 1.5 }} color="red">
+            You already have {itemCart?.quantity} item at your cart
+          </Typography>
+        )}
       </Box>
       <Divider sx={{ my: 2 }} />
       <Typography color="text.secondary">{product?.description}</Typography>
