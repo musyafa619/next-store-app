@@ -23,6 +23,8 @@ const ProductSummary: React.FC<Props> = ({ product }) => {
   const { addItem, items } = useCart();
 
   const itemCart = items.find((item) => item.id === product.id);
+  const toMuchItem =
+    qty + Number(itemCart?.quantity || 0) > Number(product?.metadata?.stock);
   return (
     <Fragment>
       <Box className={styles.titleSection}>
@@ -78,8 +80,7 @@ const ProductSummary: React.FC<Props> = ({ product }) => {
         >
           Add to Cart
         </Button>
-        {qty + Number(itemCart?.quantity) >
-          Number(product?.metadata?.stock) && (
+        {itemCart?.quantity && toMuchItem && (
           <Typography sx={{ my: 1.5 }} color="red">
             You already have {itemCart?.quantity} item at your cart
           </Typography>
